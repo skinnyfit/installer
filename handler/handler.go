@@ -107,19 +107,20 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	q := Query{
-		User:      "",
-		Program:   "",
-		Release:   "",
-		Insecure:  r.URL.Query().Get("insecure") == "1",
-		AsProgram: r.URL.Query().Get("as"),
+		User:       "",
+		Program:    "",
+		Release:    "",
+		Insecure:   r.URL.Query().Get("insecure") == "1",
+		AsProgram:  r.URL.Query().Get("as"),
+		MoveToPath: true,
 	}
 	// set query from route
 	path := strings.TrimPrefix(r.URL.Path, "/")
 	// move to path with !
-	if strings.HasSuffix(path, "!") {
-		q.MoveToPath = true
-		path = strings.TrimRight(path, "!")
-	}
+	// if strings.HasSuffix(path, "!") {
+	// 	q.MoveToPath = true
+	// 	path = strings.TrimRight(path, "!")
+	// }
 	var rest string
 	q.User, rest = splitHalf(path, "/")
 	q.Program, q.Release = splitHalf(rest, "@")
